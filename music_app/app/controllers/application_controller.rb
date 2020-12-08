@@ -14,9 +14,9 @@ class ApplicationController < ActionController::Base
         User.find_by(session_token: session[:session_token])
     end
 
-    def log_in_user!
+    def log_in_user!(user)
 
-        session[:session_token] = User.reset_session_token!
+        session[:session_token] = user.reset_session_token!
 
     end
 

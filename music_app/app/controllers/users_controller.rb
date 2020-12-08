@@ -11,17 +11,19 @@ class UsersController < ApplicationController
 
         @user = User.new(user_params)
         if @user.save #save runs validations on the user params (email, password) based on user model validations
-            session[:session] = @user.session_token  #set session token inside of session cookie equal to user's session_token value
+            # debugger 
+            log_in_user!(@user)  #set session token inside of session cookie equal to user's session_token value
             flash[:success] = 'Welcome new user. You have successfully signed up to our website.'
+            # debugger
             redirect_to user_url(@user)
         else
-            render :new 
+            render :new, status: 422 
         end
     end
 
     def show
-        @user = User.find_by(params[:email])
-        # @user = User.find(params[:id])
+        # @user = User.find_by(params[:email])
+        @user = current_user
 
         render :show
     end
